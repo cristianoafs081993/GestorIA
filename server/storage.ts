@@ -10,6 +10,10 @@ import {
   type Lead, type InsertLead
 } from "@shared/schema";
 
+// Importações no início do arquivo
+import { supabaseStorage } from './supabase-storage';
+import { DatabaseStorage } from './database-storage';
+
 // modify the interface with any CRUD methods
 // you might need
 
@@ -100,7 +104,7 @@ export class MemStorage implements IStorage {
   private blogPostId: number;
   private blogCommentId: number;
   private leadId: number;
-
+  
   constructor() {
     this.users = new Map();
     this.products = new Map();
@@ -122,24 +126,24 @@ export class MemStorage implements IStorage {
     this.blogCommentId = 1;
     this.leadId = 1;
   }
-
+  
   // User methods
   async getUser(id: number): Promise<User | undefined> {
     return this.users.get(id);
   }
-
+  
   async getUserByUsername(username: string): Promise<User | undefined> {
     return Array.from(this.users.values()).find(
-      (user) => user.username === username,
+      (user) => user.username === username
     );
   }
   
   async getUserByEmail(email: string): Promise<User | undefined> {
     return Array.from(this.users.values()).find(
-      (user) => user.email === email,
+      (user) => user.email === email
     );
   }
-
+  
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = this.currentId++;
     const createdAt = new Date();
@@ -186,8 +190,8 @@ export class MemStorage implements IStorage {
     if (!product) {
       throw new Error("Produto não encontrado");
     }
-    product.stock = Math.max((product.stock || 0) - quantity, 0);
-    this.products.set(id, product);
+    const stock = (product.stock || 0) - quantity;
+    this.products.set(id, { ...product, stock });
   }
   
   // Customer methods
@@ -225,9 +229,14 @@ export class MemStorage implements IStorage {
   
   // Sale methods
   async getSales(userId: number): Promise<Sale[]> {
-    return Array.from(this.sales.values()).filter(
-      (sale) => sale.userId === userId
-    );
+    return Array.from(this.sales.values())
+      .filter((sale) => sale.userId === userId)
+      .map((sale) => {
+        const items = Array.from(this.saleItems.values()).filter(
+          (item) => item.saleId === sale.id
+        );
+        return { ...sale, items };
+      });
   }
   
   async getSale(id: number): Promise<Sale> {
@@ -235,7 +244,6 @@ export class MemStorage implements IStorage {
     if (!sale) {
       throw new Error("Venda não encontrada");
     }
-    // Add items to sale
     const items = Array.from(this.saleItems.values()).filter(
       (item) => item.saleId === id
     );
@@ -246,7 +254,13 @@ export class MemStorage implements IStorage {
     return Array.from(this.sales.values())
       .filter((sale) => sale.userId === userId)
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-      .slice(0, limit);
+      .slice(0, limit)
+      .map((sale) => {
+        const items = Array.from(this.saleItems.values()).filter(
+          (item) => item.saleId === sale.id
+        );
+        return { ...sale, items };
+      });
   }
   
   async createSale(sale: InsertSale): Promise<Sale> {
@@ -292,7 +306,7 @@ export class MemStorage implements IStorage {
   async updateInvoiceStatus(id: number, status: string): Promise<Invoice> {
     const invoice = this.invoices.get(id);
     if (!invoice) {
-      throw new Error("Nota fiscal não encontrada");
+      throw new Error("Fatura não encontrada");
     }
     const updatedInvoice = { ...invoice, status };
     this.invoices.set(id, updatedInvoice);
@@ -301,62 +315,77 @@ export class MemStorage implements IStorage {
   
   // Dashboard methods
   async getDashboardStats(userId: number): Promise<any> {
-    const totalSales = this.getSales(userId).then(sales => sales.length);
-    const totalCustomers = this.getCustomers(userId).then(customers => customers.length);
-    const totalProducts = this.getProducts(userId).then(products => products.length);
-    
-    const salesSum = this.getSales(userId).then(sales => 
-      sales.reduce((sum, sale) => sum + Number(sale.total), 0)
+    const sales = Array.from(this.sales.values()).filter(
+      (sale) => sale.userId === userId
+    );
+    const customers = Array.from(this.customers.values()).filter(
+      (customer) => customer.userId === userId
+    );
+    const products = Array.from(this.products.values()).filter(
+      (product) => product.userId === userId
     );
     
+    const revenue = sales
+      .reduce((sum, sale) => sum + parseFloat(sale.total), 0)
+      .toFixed(2);
+    
     return {
-      totalSales: await totalSales,
-      totalCustomers: await totalCustomers,
-      totalProducts: await totalProducts,
-      salesSum: await salesSum,
+      totalSales: sales.length,
+      totalCustomers: customers.length,
+      totalProducts: products.length,
+      revenue
     };
   }
   
   async getSalesChartData(userId: number): Promise<any> {
-    const sales = await this.getSales(userId);
+    const sales = Array.from(this.sales.values()).filter(
+      (sale) => sale.userId === userId
+    );
+    const months = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
     const now = new Date();
-    const lastSixMonths: any[] = [];
+    const chartData = [];
     
-    for (let i = 5; i >= 0; i--) {
-      const month = new Date(now.getFullYear(), now.getMonth() - i, 1);
-      const monthName = month.toLocaleString('default', { month: 'short' });
+    for (let i = 0; i < 6; i++) {
+      const month = (now.getMonth() - i + 12) % 12;
+      const year = now.getFullYear() - (now.getMonth() < i ? 1 : 0);
       
-      const monthlySales = sales.filter(sale => {
-        const saleDate = new Date(sale.createdAt);
-        return saleDate.getMonth() === month.getMonth() && 
-               saleDate.getFullYear() === month.getFullYear();
+      const monthSales = sales.filter(sale => {
+        return sale.createdAt.getMonth() === month && sale.createdAt.getFullYear() === year;
       });
       
-      const total = monthlySales.reduce((sum, sale) => sum + Number(sale.total), 0);
+      const total = monthSales.reduce((sum, sale) => sum + parseFloat(sale.total), 0);
       
-      lastSixMonths.push({
-        month: monthName,
+      chartData.unshift({
+        month: months[month],
         total
       });
     }
     
-    return lastSixMonths;
+    return chartData;
   }
   
   async getCategoryChartData(userId: number): Promise<any> {
-    const products = await this.getProducts(userId);
-    const categories: {[key: string]: number} = {};
+    const products = Array.from(this.products.values()).filter(
+      (product) => product.userId === userId
+    );
+    const saleItems = Array.from(this.saleItems.values());
     
-    products.forEach(product => {
-      const category = product.category || "Sem categoria";
-      if (categories[category]) {
-        categories[category]++;
-      } else {
-        categories[category] = 1;
+    const categoryCounts: Record<string, number> = {};
+    
+    for (const item of saleItems) {
+      const product = products.find(p => p.id === item.productId);
+      if (product) {
+        const category = product.category || "Sem categoria";
+        categoryCounts[category] = (categoryCounts[category] || 0) + item.quantity;
       }
-    });
+    }
     
-    return Object.entries(categories).map(([name, value]) => ({ name, value }));
+    const chartData = Object.entries(categoryCounts).map(([category, value]) => ({
+      category,
+      value
+    }));
+    
+    return chartData;
   }
   
   // Blog methods
@@ -367,9 +396,9 @@ export class MemStorage implements IStorage {
   }
   
   async getPublishedBlogPosts(): Promise<BlogPost[]> {
-    return Array.from(this.blogPosts.values()).filter(
-      (post) => post.published
-    );
+    return Array.from(this.blogPosts.values())
+      .filter((post) => post.published)
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   }
   
   async getRecentBlogPosts(limit: number): Promise<BlogPost[]> {
@@ -380,43 +409,58 @@ export class MemStorage implements IStorage {
   }
   
   async getPopularBlogPosts(limit: number): Promise<BlogPost[]> {
-    // In a real application, we would count views or likes
-    return this.getRecentBlogPosts(limit);
+    return Array.from(this.blogPosts.values())
+      .filter((post) => post.published)
+      .sort((a, b) => (b.views || 0) - (a.views || 0))
+      .slice(0, limit);
   }
   
   async getBlogCategories(): Promise<string[]> {
     const categories = new Set<string>();
     Array.from(this.blogPosts.values())
       .filter((post) => post.published && post.category)
-      .forEach((post) => categories.add(post.category!));
-    return [...categories];
+      .forEach((post) => categories.add(post.category as string));
+    return Array.from(categories);
   }
   
   async getBlogPost(id: number): Promise<BlogPost | undefined> {
-    return this.blogPosts.get(id);
+    const post = this.blogPosts.get(id);
+    if (post) {
+      // Incrementa visualizações
+      post.views = (post.views || 0) + 1;
+      this.blogPosts.set(id, post);
+    }
+    return post;
   }
   
   async getBlogPostBySlug(slug: string): Promise<BlogPost | undefined> {
-    return Array.from(this.blogPosts.values()).find(
+    const post = Array.from(this.blogPosts.values()).find(
       (post) => post.slug === slug
     );
+    if (post) {
+      // Incrementa visualizações
+      post.views = (post.views || 0) + 1;
+      this.blogPosts.set(post.id, post);
+    }
+    return post;
   }
   
   async getRelatedBlogPosts(slug: string, limit: number): Promise<BlogPost[]> {
-    const post = await this.getBlogPostBySlug(slug);
-    if (!post) {
+    const post = Array.from(this.blogPosts.values()).find(
+      (post) => post.slug === slug
+    );
+    if (!post || !post.category) {
       return [];
     }
-    
     return Array.from(this.blogPosts.values())
-      .filter((p) => p.published && p.id !== post.id && p.category === post.category)
+      .filter((p) => p.published && p.category === post.category && p.slug !== slug)
       .slice(0, limit);
   }
   
   async createBlogPost(post: InsertBlogPost & { userId: number }): Promise<BlogPost> {
     const id = this.blogPostId++;
     const createdAt = new Date();
-    const updatedAt = createdAt;
+    const updatedAt = new Date();
     const newPost: BlogPost = { ...post, id, createdAt, updatedAt };
     this.blogPosts.set(id, newPost);
     return newPost;
@@ -425,10 +469,9 @@ export class MemStorage implements IStorage {
   async updateBlogPost(id: number, data: Partial<InsertBlogPost>): Promise<BlogPost> {
     const post = this.blogPosts.get(id);
     if (!post) {
-      throw new Error("Artigo não encontrado");
+      throw new Error("Post não encontrado");
     }
-    const updatedAt = new Date();
-    const updatedPost = { ...post, ...data, updatedAt };
+    const updatedPost = { ...post, ...data, updatedAt: new Date() };
     this.blogPosts.set(id, updatedPost);
     return updatedPost;
   }
@@ -439,13 +482,15 @@ export class MemStorage implements IStorage {
   
   // Comment methods
   async getAllBlogComments(): Promise<BlogComment[]> {
-    return Array.from(this.blogComments.values());
+    return Array.from(this.blogComments.values()).sort(
+      (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+    );
   }
   
   async getApprovedBlogComments(postId: number): Promise<BlogComment[]> {
-    return Array.from(this.blogComments.values()).filter(
-      (comment) => comment.postId === postId && comment.approved
-    );
+    return Array.from(this.blogComments.values())
+      .filter((comment) => comment.postId === postId && comment.approved)
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   }
   
   async getBlogComment(id: number): Promise<BlogComment | undefined> {
@@ -490,13 +535,5 @@ export class MemStorage implements IStorage {
   }
 }
 
-// Importe a nova implementação baseada em banco de dados
-import { DatabaseStorage } from './database-storage';
-
-// Para manter a compatibilidade, você pode decidir qual storage usar 
-// com base na variável de ambiente DATABASE_ENABLED
-const useDatabaseStorage = process.env.DATABASE_URL || process.env.SUPABASE_DB_PASSWORD;
-
-export const storage = useDatabaseStorage 
-  ? new DatabaseStorage() 
-  : new MemStorage();
+// Utilizamos o armazenamento do Supabase
+export const storage = supabaseStorage;
