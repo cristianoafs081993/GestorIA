@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { useAuth } from "@/lib/auth";
-import Sidebar from "@/components/layout/Sidebar";
+import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { formatCurrency } from "@/lib/utils";
@@ -86,7 +86,6 @@ type ProductFormValues = z.infer<typeof productSchema>;
 
 const Products = () => {
   const { user } = useAuth();
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
   const [searchQuery, setSearchQuery] = useState("");
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -223,8 +222,8 @@ const Products = () => {
       cost: product.cost ? product.cost.toString() : "",
       sku: product.sku || "",
       barcode: product.barcode || "",
-      stock: product.stock.toString(),
-      minStock: product.minStock.toString(),
+      stock: product.stock ? product.stock.toString() : "0",
+      minStock: product.minStock ? product.minStock.toString() : "0",
       category: product.category || "",
       active: product.active,
     });
@@ -247,141 +246,132 @@ const Products = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Mobile view */}
-      {isMobile && <Sidebar isMobile={true} />}
-      
-      {/* Desktop view */}
-      {!isMobile && <Sidebar />}
-      
-      {/* Main Content */}
-      <div className="sm:ml-64 pt-4 pb-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-6">
-            <h1 className="text-2xl font-semibold text-gray-900">Produtos</h1>
-            <Button className="gradient-bg hover:opacity-90" onClick={() => setIsAddDialogOpen(true)}>
-              <Plus className="h-4 w-4 mr-2" />
-              Novo Produto
-            </Button>
-          </div>
-
-          {/* Search and Filter */}
-          <Card className="mb-6">
-            <CardContent className="p-4">
-              <div className="flex flex-col sm:flex-row gap-4">
-                <div className="relative flex-grow">
-                  <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                  <Input
-                    placeholder="Buscar produtos..."
-                    className="pl-9"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </div>
-                <Select defaultValue="all">
-                  <SelectTrigger className="w-full sm:w-[180px]">
-                    <SelectValue placeholder="Filtrar por categoria" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Todas as categorias</SelectItem>
-                    <SelectItem value="eletronicos">Eletrônicos</SelectItem>
-                    <SelectItem value="roupas">Roupas</SelectItem>
-                    <SelectItem value="alimentos">Alimentos</SelectItem>
-                    <SelectItem value="servicos">Serviços</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Select defaultValue="all">
-                  <SelectTrigger className="w-full sm:w-[180px]">
-                    <SelectValue placeholder="Filtrar por estoque" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Todos os produtos</SelectItem>
-                    <SelectItem value="instock">Em estoque</SelectItem>
-                    <SelectItem value="lowstock">Estoque baixo</SelectItem>
-                    <SelectItem value="outofstock">Sem estoque</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Products Table */}
-          <Card>
-            <CardContent className="p-0">
-              {isLoading ? (
-                <div className="flex justify-center items-center py-20">
-                  <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
-                  <span className="ml-2 text-lg text-gray-500">Carregando produtos...</span>
-                </div>
-              ) : filteredProducts && filteredProducts.length > 0 ? (
-                <div className="overflow-x-auto">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Nome</TableHead>
-                        <TableHead>Preço</TableHead>
-                        <TableHead>Estoque</TableHead>
-                        <TableHead>Categoria</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead className="text-right">Ações</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {filteredProducts.map((product) => (
-                        <TableRow key={product.id}>
-                          <TableCell className="font-medium">
-                            <div className="flex flex-col">
-                              <span>{product.name}</span>
-                              {product.sku && <span className="text-xs text-gray-500">SKU: {product.sku}</span>}
-                            </div>
-                          </TableCell>
-                          <TableCell>{formatCurrency(product.price)}</TableCell>
-                          <TableCell>
-                            <div className="flex items-center">
-                              <span>{product.stock}</span>
-                              {product.stock <= product.minStock && (
-                                <AlertTriangle className="h-4 w-4 ml-2 text-yellow-500" />
-                              )}
-                            </div>
-                          </TableCell>
-                          <TableCell>{product.category || "-"}</TableCell>
-                          <TableCell>
-                            <span className={`px-2 py-1 rounded-full text-xs ${product.active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
-                              {product.active ? 'Ativo' : 'Inativo'}
-                            </span>
-                          </TableCell>
-                          <TableCell className="text-right">
-                            <Button variant="ghost" size="sm" onClick={() => handleEditProduct(product)}>
-                              <Edit className="h-4 w-4" />
-                            </Button>
-                            <Button variant="ghost" size="sm" onClick={() => handleDeleteProduct(product)}>
-                              <Trash2 className="h-4 w-4 text-red-500" />
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              ) : (
-                <div className="flex flex-col items-center justify-center py-20">
-                  <Package className="h-16 w-16 text-gray-300 mb-4" />
-                  <h3 className="text-xl font-medium text-gray-900 mb-2">Nenhum produto encontrado</h3>
-                  <p className="text-gray-500 mb-6 text-center max-w-md">
-                    {searchQuery ? 
-                      `Não encontramos produtos correspondentes à sua busca "${searchQuery}".` : 
-                      "Você ainda não cadastrou nenhum produto. Comece cadastrando seu primeiro produto."}
-                  </p>
-                  <Button className="gradient-bg hover:opacity-90" onClick={() => setIsAddDialogOpen(true)}>
-                    <Plus className="h-4 w-4 mr-2" />
-                    Adicionar Produto
-                  </Button>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+    <DashboardLayout title="Produtos">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-2xl font-semibold text-gray-900">Produtos</h1>
+          <Button className="bg-primary hover:bg-primary/90" onClick={() => setIsAddDialogOpen(true)}>
+            <Plus className="h-4 w-4 mr-2" />
+            Novo Produto
+          </Button>
         </div>
+
+        {/* Search and Filter */}
+        <Card className="mb-6">
+          <CardContent className="p-4">
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="relative flex-grow">
+                <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                <Input
+                  placeholder="Buscar produtos..."
+                  className="pl-9"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+              <Select defaultValue="all">
+                <SelectTrigger className="w-full sm:w-[180px]">
+                  <SelectValue placeholder="Filtrar por categoria" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Todas as categorias</SelectItem>
+                  <SelectItem value="eletronicos">Eletrônicos</SelectItem>
+                  <SelectItem value="roupas">Roupas</SelectItem>
+                  <SelectItem value="alimentos">Alimentos</SelectItem>
+                  <SelectItem value="servicos">Serviços</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select defaultValue="all">
+                <SelectTrigger className="w-full sm:w-[180px]">
+                  <SelectValue placeholder="Filtrar por estoque" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Todos os produtos</SelectItem>
+                  <SelectItem value="instock">Em estoque</SelectItem>
+                  <SelectItem value="lowstock">Estoque baixo</SelectItem>
+                  <SelectItem value="outofstock">Sem estoque</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Products Table */}
+        <Card>
+          <CardContent className="p-0">
+            {isLoading ? (
+              <div className="flex justify-center items-center py-20">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                <span className="ml-2 text-lg text-gray-500">Carregando produtos...</span>
+              </div>
+            ) : filteredProducts && filteredProducts.length > 0 ? (
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Nome</TableHead>
+                      <TableHead>Preço</TableHead>
+                      <TableHead>Estoque</TableHead>
+                      <TableHead>Categoria</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead className="text-right">Ações</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredProducts.map((product) => (
+                      <TableRow key={product.id}>
+                        <TableCell className="font-medium">
+                          <div className="flex flex-col">
+                            <span>{product.name}</span>
+                            {product.sku && <span className="text-xs text-gray-500">SKU: {product.sku}</span>}
+                          </div>
+                        </TableCell>
+                        <TableCell>{formatCurrency(product.price)}</TableCell>
+                        <TableCell>
+                          <div className="flex items-center">
+                            <span>{product.stock}</span>
+                            {product.stock <= product.minStock && (
+                              <AlertTriangle className="h-4 w-4 ml-2 text-yellow-500" />
+                            )}
+                          </div>
+                        </TableCell>
+                        <TableCell>{product.category || "-"}</TableCell>
+                        <TableCell>
+                          <span className={`px-2 py-1 rounded-full text-xs ${product.active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                            {product.active ? 'Ativo' : 'Inativo'}
+                          </span>
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <Button variant="ghost" size="sm" onClick={() => handleEditProduct(product)}>
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                          <Button variant="ghost" size="sm" onClick={() => handleDeleteProduct(product)}>
+                            <Trash2 className="h-4 w-4 text-red-500" />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center py-20">
+                <Package className="h-16 w-16 text-gray-300 mb-4" />
+                <h3 className="text-xl font-medium text-gray-900 mb-2">Nenhum produto encontrado</h3>
+                <p className="text-gray-500 mb-6 text-center max-w-md">
+                  {searchQuery ? 
+                    `Não encontramos produtos correspondentes à sua busca "${searchQuery}".` : 
+                    "Você ainda não cadastrou nenhum produto. Comece cadastrando seu primeiro produto."}
+                </p>
+                <Button className="bg-primary hover:bg-primary/90" onClick={() => setIsAddDialogOpen(true)}>
+                  <Plus className="h-4 w-4 mr-2" />
+                  Adicionar Produto
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
 
       {/* Add Product Dialog */}
@@ -542,7 +532,7 @@ const Products = () => {
                 <Button type="button" variant="outline" onClick={() => setIsAddDialogOpen(false)}>
                   Cancelar
                 </Button>
-                <Button type="submit" className="gradient-bg hover:opacity-90" disabled={addProduct.isPending}>
+                <Button type="submit" className="bg-primary hover:bg-primary/90" disabled={addProduct.isPending}>
                   {addProduct.isPending ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -621,7 +611,7 @@ const Products = () => {
                       <FormLabel>Categoria</FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
+                        defaultValue={field.value || ""}
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -712,32 +702,11 @@ const Products = () => {
                 )}
               />
 
-              <FormField
-                control={editForm.control}
-                name="active"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md p-4 border">
-                    <FormControl>
-                      <input
-                        type="checkbox"
-                        checked={field.value}
-                        onChange={field.onChange}
-                        className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                      />
-                    </FormControl>
-                    <div className="space-y-1 leading-none">
-                      <FormLabel>Produto ativo</FormLabel>
-                      <p className="text-sm text-gray-500">Produtos inativos não aparecerão no PDV.</p>
-                    </div>
-                  </FormItem>
-                )}
-              />
-
               <DialogFooter>
                 <Button type="button" variant="outline" onClick={() => setIsEditDialogOpen(false)}>
                   Cancelar
                 </Button>
-                <Button type="submit" className="gradient-bg hover:opacity-90" disabled={editProduct.isPending}>
+                <Button type="submit" className="bg-primary hover:bg-primary/90" disabled={editProduct.isPending}>
                   {editProduct.isPending ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -784,7 +753,7 @@ const Products = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+    </DashboardLayout>
   );
 };
 

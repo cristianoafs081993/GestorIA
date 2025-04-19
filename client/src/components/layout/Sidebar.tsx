@@ -1,158 +1,78 @@
-import { useState } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'wouter';
-import { useAuth } from '@/lib/auth';
-import { 
-  LayoutDashboard, 
-  ShoppingCart, 
-  Package, 
-  Users, 
-  FileText, 
-  BarChart2, 
-  Settings,
-  Menu,
-  X
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from '@/components/ui/sheet';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+  Home,
+  Package,
+  ShoppingCart,
+  Users,
+  FileText,
+  BarChart2,
+  Settings,
+  LogOut,
+  BookOpen,
+} from 'lucide-react';
+import { useAuth } from '@/lib/auth';
 
-interface SidebarProps {
-  isMobile?: boolean;
-}
+const navItems = [
+  { href: '/dashboard', label: 'Dashboard', icon: Home },
+  { href: '/products', label: 'Produtos', icon: Package },
+  { href: '/stock', label: 'Estoque', icon: ShoppingCart },
+  { href: '/sales', label: 'Vendas', icon: ShoppingCart },
+  { href: '/invoices', label: 'Notas Fiscais', icon: FileText },
+  { href: '/customers', label: 'Clientes', icon: Users },
+  { href: '/reports', label: 'Relatórios', icon: BarChart2 },
+  { href: '/blog', label: 'Blog', icon: BookOpen },
+  { href: '/settings', label: 'Configurações', icon: Settings },
+];
 
-const Sidebar = ({ isMobile = false }: SidebarProps) => {
+function Sidebar() {
   const [location] = useLocation();
-  const { user, logout } = useAuth();
-  
-  const navItems = [
-    { 
-      path: '/dashboard', 
-      label: 'Dashboard', 
-      icon: <LayoutDashboard className="mr-3 h-5 w-5 text-indigo-300" /> 
-    },
-    { 
-      path: '/vendas', 
-      label: 'Vendas / PDV', 
-      icon: <ShoppingCart className="mr-3 h-5 w-5 text-indigo-300" /> 
-    },
-    { 
-      path: '/produtos', 
-      label: 'Produtos', 
-      icon: <Package className="mr-3 h-5 w-5 text-indigo-300" /> 
-    },
-    { 
-      path: '/clientes', 
-      label: 'Clientes', 
-      icon: <Users className="mr-3 h-5 w-5 text-indigo-300" /> 
-    },
-    { 
-      path: '/notas', 
-      label: 'Notas Fiscais', 
-      icon: <FileText className="mr-3 h-5 w-5 text-indigo-300" /> 
-    },
-    { 
-      path: '/relatorios', 
-      label: 'Relatórios', 
-      icon: <BarChart2 className="mr-3 h-5 w-5 text-indigo-300" /> 
-    },
-    { 
-      path: '/configuracoes', 
-      label: 'Configurações', 
-      icon: <Settings className="mr-3 h-5 w-5 text-indigo-300" /> 
-    },
-    { 
-      path: '/blog-admin', 
-      label: 'Gerenciar Blog', 
-      icon: <FileText className="mr-3 h-5 w-5 text-indigo-300" /> 
-    }
-  ];
-
-  const sidebarContent = (
-    <div className="flex flex-col h-full">
-      <div className="p-4 border-b border-indigo-800">
-        <div className="flex items-center">
-          <Link href="/dashboard">
-            <a className="text-xl font-bold text-white">
-              Gestor<span className="text-purple-300">IA</span>
-            </a>
-          </Link>
-        </div>
-      </div>
-
-      <nav className="flex-1 overflow-y-auto pt-4">
-        <div className="px-2 space-y-1">
-          {navItems.map((item) => (
-            <Link key={item.path} href={item.path}>
-              <a className={`group flex items-center px-2 py-2 text-sm font-medium rounded-md ${location === item.path 
-                ? 'bg-indigo-800 text-white' 
-                : 'text-indigo-100 hover:bg-indigo-600 hover:text-white'}`}
-              >
-                {item.icon}
-                {item.label}
-              </a>
-            </Link>
-          ))}
-        </div>
-      </nav>
-
-      <div className="p-4 border-t border-indigo-800">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <Avatar className="h-8 w-8 bg-indigo-300">
-              <AvatarImage src="" alt={user?.username || "Avatar"} />
-              <AvatarFallback>{user?.username?.charAt(0).toUpperCase() || "U"}</AvatarFallback>
-            </Avatar>
-            <div className="ml-3">
-              <p className="text-sm font-medium text-white">{user?.username || 'Usuário'}</p>
-              <p className="text-xs text-indigo-200">{user?.role || 'Admin'}</p>
-            </div>
-          </div>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={() => logout()} 
-            className="text-indigo-200 hover:text-white hover:bg-indigo-700"
-          >
-            Sair
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-
-  if (isMobile) {
-    return (
-      <>
-        <div className="bg-indigo-700 text-white p-4 flex justify-between items-center">
-          <Link href="/dashboard">
-            <a className="text-xl font-bold">
-              Gestor<span className="text-purple-300">IA</span>
-            </a>
-          </Link>
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="sm" className="text-white p-1">
-                <Menu className="h-6 w-6" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="p-0 bg-indigo-700 text-white w-64">
-              {sidebarContent}
-            </SheetContent>
-          </Sheet>
-        </div>
-      </>
-    );
-  }
+  const { logout } = useAuth();
 
   return (
-    <div className="hidden sm:flex sm:flex-col sm:fixed sm:inset-y-0 sm:left-0 sm:w-64 sm:bg-indigo-700 sm:shadow-lg">
-      {sidebarContent}
-    </div>
+    <aside className="w-64 min-h-screen bg-primary border-r border-r-primary/10 text-white">
+      <div className="p-4">
+        <div className="flex items-center space-x-2 mb-10 mt-4">
+          <span className="text-xl font-bold">GestorIA</span>
+        </div>
+
+        <nav className="space-y-1">
+          {navItems.map((item) => {
+            const isActive = location === item.href;
+            const Icon = item.icon;
+            
+            return (
+              <Link key={item.href} href={item.href}>
+                <a
+                  className={cn(
+                    'flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors',
+                    isActive 
+                      ? 'bg-white/20 text-white font-medium' 
+                      : 'text-white/70 hover:text-white hover:bg-white/10'
+                  )}
+                >
+                  <Icon className="h-5 w-5" />
+                  <span>{item.label}</span>
+                </a>
+              </Link>
+            );
+          })}
+        </nav>
+      </div>
+      
+      <div className="absolute bottom-4 left-4 right-4">
+        <button
+          onClick={logout}
+          className="flex items-center gap-3 px-3 py-2 rounded-md text-sm text-white/70 hover:text-white hover:bg-white/10 w-full"
+        >
+          <LogOut className="h-5 w-5" />
+          <span>Sair</span>
+        </button>
+      </div>
+    </aside>
   );
-};
+}
 
 export default Sidebar;
+export { Sidebar };
