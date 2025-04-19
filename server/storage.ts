@@ -490,4 +490,13 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+// Importe a nova implementação baseada em banco de dados
+import { DatabaseStorage } from './database-storage';
+
+// Para manter a compatibilidade, você pode decidir qual storage usar 
+// com base na variável de ambiente DATABASE_ENABLED
+const useDatabaseStorage = process.env.DATABASE_URL || process.env.SUPABASE_DB_PASSWORD;
+
+export const storage = useDatabaseStorage 
+  ? new DatabaseStorage() 
+  : new MemStorage();
