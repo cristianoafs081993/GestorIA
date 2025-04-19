@@ -6,9 +6,13 @@ import BlogCard from "@/components/ui/blog-card";
 import NewsletterForm from "@/components/forms/NewsletterForm";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, formatDate } from "@/lib/utils";
+import { useAuth } from "@/lib/auth";
 
 const Home = () => {
+  // Verificar autenticação
+  const { isAuthenticated } = useAuth();
+  
   // Fetch recent blog posts
   const { data: blogPosts, isLoading: isLoadingBlogPosts } = useQuery<any[]>({
     queryKey: ['/api/blog/recent'],
@@ -306,6 +310,342 @@ const Home = () => {
           </div>
         </div>
       </section>
+      
+      {/* Depoimentos */}
+      <section id="depoimentos" className="bg-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gray-900">O que nossos clientes dizem</h2>
+            <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
+              Veja como o GestorIA está transformando a gestão de empresas por todo o Brasil.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="testimonial bg-gray-50 p-6 rounded-lg shadow-md">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mr-4">
+                  <span className="text-indigo-600 font-semibold">ML</span>
+                </div>
+                <div>
+                  <h4 className="font-semibold">Maria Lima</h4>
+                  <p className="text-sm text-gray-500">Loja de Roupas</p>
+                </div>
+              </div>
+              <p className="text-gray-600 italic">
+                "O GestorIA transformou completamente meu pequeno negócio. Consigo gerenciar estoque, vendas e finanças em um só lugar, e o melhor: recebo alertas e relatórios pelo WhatsApp!"
+              </p>
+              <div className="mt-4 flex text-indigo-500">
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+              </div>
+            </div>
+            
+            <div className="testimonial bg-gray-50 p-6 rounded-lg shadow-md">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mr-4">
+                  <span className="text-indigo-600 font-semibold">CS</span>
+                </div>
+                <div>
+                  <h4 className="font-semibold">Carlos Silva</h4>
+                  <p className="text-sm text-gray-500">Restaurante</p>
+                </div>
+              </div>
+              <p className="text-gray-600 italic">
+                "A emissão de notas fiscais automática e o controle de estoque me poupam horas de trabalho toda semana. O suporte é excelente e as atualizações constantes sempre trazem novidades úteis."
+              </p>
+              <div className="mt-4 flex text-indigo-500">
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star-half-alt"></i>
+              </div>
+            </div>
+            
+            <div className="testimonial bg-gray-50 p-6 rounded-lg shadow-md">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mr-4">
+                  <span className="text-indigo-600 font-semibold">AS</span>
+                </div>
+                <div>
+                  <h4 className="font-semibold">Ana Santos</h4>
+                  <p className="text-sm text-gray-500">Clínica de Estética</p>
+                </div>
+              </div>
+              <p className="text-gray-600 italic">
+                "O módulo de gestão de clientes e agendamentos é perfeito para meu negócio. As análises de vendas me ajudaram a identificar os serviços mais lucrativos e a direcionar melhor meus investimentos."
+              </p>
+              <div className="mt-4 flex text-indigo-500">
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+                <i className="fas fa-star"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Entre em Contato */}
+      <section id="contato" className="bg-gray-50 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gray-900">Entre em Contato</h2>
+            <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
+              Tire suas dúvidas, solicite uma demonstração ou converse com nosso time de especialistas.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div className="bg-white p-8 rounded-xl shadow-md">
+              <h3 className="text-xl font-semibold mb-4">Fale Conosco</h3>
+              <form className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Nome Completo
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="Seu nome"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="seu@email.com"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Assunto
+                  </label>
+                  <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                    <option>Quero conhecer o GestorIA</option>
+                    <option>Suporte Técnico</option>
+                    <option>Dúvidas sobre Planos</option>
+                    <option>Outros Assuntos</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Mensagem
+                  </label>
+                  <textarea
+                    rows={4}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="Como podemos ajudar?"
+                  ></textarea>
+                </div>
+                <div>
+                  <Button className="gradient-bg hover:opacity-90 w-full">
+                    Enviar Mensagem
+                  </Button>
+                </div>
+              </form>
+            </div>
+            
+            <div className="grid grid-cols-1 gap-8">
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <div className="flex items-center mb-4">
+                  <div className="w-10 h-10 rounded-full gradient-bg flex items-center justify-center mr-4">
+                    <i className="fas fa-envelope text-white"></i>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold">Email</h4>
+                    <p className="text-indigo-600">contato@gestoria.com.br</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <div className="flex items-center mb-4">
+                  <div className="w-10 h-10 rounded-full gradient-bg flex items-center justify-center mr-4">
+                    <i className="fas fa-phone text-white"></i>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold">Telefone</h4>
+                    <p className="text-indigo-600">(11) 4002-8922</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <div className="flex items-center mb-4">
+                  <div className="w-10 h-10 rounded-full gradient-bg flex items-center justify-center mr-4">
+                    <i className="fab fa-whatsapp text-white"></i>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold">WhatsApp</h4>
+                    <p className="text-indigo-600">(11) 98765-4321</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <div className="flex items-center mb-4">
+                  <div className="w-10 h-10 rounded-full gradient-bg flex items-center justify-center mr-4">
+                    <i className="fas fa-map-marker-alt text-white"></i>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold">Endereço</h4>
+                    <p className="text-gray-600">Av. Paulista, 1000 - São Paulo, SP</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Painel de Acesso para Usuários Logados */}
+      {isAuthenticated && (
+        <section className="bg-indigo-50 py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="bg-white p-8 rounded-xl shadow-lg">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Acesso Rápido ao Sistema</h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Link href="/dashboard">
+                  <div className="bg-indigo-50 p-6 rounded-lg hover:shadow-md transition duration-200 cursor-pointer">
+                    <div className="w-12 h-12 rounded-lg gradient-bg flex items-center justify-center mb-4">
+                      <i className="fas fa-chart-line text-white text-xl"></i>
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Dashboard</h3>
+                    <p className="text-gray-600">Visualize métricas, vendas e dados analíticos do seu negócio</p>
+                  </div>
+                </Link>
+                
+                <Link href="/products">
+                  <div className="bg-indigo-50 p-6 rounded-lg hover:shadow-md transition duration-200 cursor-pointer">
+                    <div className="w-12 h-12 rounded-lg gradient-bg flex items-center justify-center mb-4">
+                      <i className="fas fa-box text-white text-xl"></i>
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Produtos</h3>
+                    <p className="text-gray-600">Gerencie seu catálogo, estoque e preços</p>
+                  </div>
+                </Link>
+                
+                <Link href="/customers">
+                  <div className="bg-indigo-50 p-6 rounded-lg hover:shadow-md transition duration-200 cursor-pointer">
+                    <div className="w-12 h-12 rounded-lg gradient-bg flex items-center justify-center mb-4">
+                      <i className="fas fa-users text-white text-xl"></i>
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Clientes</h3>
+                    <p className="text-gray-600">Cadastre e gerencie sua base de clientes</p>
+                  </div>
+                </Link>
+                
+                <Link href="/sales">
+                  <div className="bg-indigo-50 p-6 rounded-lg hover:shadow-md transition duration-200 cursor-pointer">
+                    <div className="w-12 h-12 rounded-lg gradient-bg flex items-center justify-center mb-4">
+                      <i className="fas fa-shopping-cart text-white text-xl"></i>
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">PDV / Vendas</h3>
+                    <p className="text-gray-600">Registre vendas e gerenie transações</p>
+                  </div>
+                </Link>
+                
+                <Link href="/invoices">
+                  <div className="bg-indigo-50 p-6 rounded-lg hover:shadow-md transition duration-200 cursor-pointer">
+                    <div className="w-12 h-12 rounded-lg gradient-bg flex items-center justify-center mb-4">
+                      <i className="fas fa-file-invoice-dollar text-white text-xl"></i>
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Notas Fiscais</h3>
+                    <p className="text-gray-600">Emita e gerencie as notas fiscais da sua empresa</p>
+                  </div>
+                </Link>
+                
+                <Link href="/blog">
+                  <div className="bg-indigo-50 p-6 rounded-lg hover:shadow-md transition duration-200 cursor-pointer">
+                    <div className="w-12 h-12 rounded-lg gradient-bg flex items-center justify-center mb-4">
+                      <i className="fas fa-blog text-white text-xl"></i>
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Blog</h3>
+                    <p className="text-gray-600">Gerencie conteúdos e capture leads para seu negócio</p>
+                  </div>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+      
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white pt-16 pb-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <h3 className="text-2xl font-bold text-white mb-4">Gestor<span className="text-indigo-400">IA</span></h3>
+              <p className="text-gray-400 mb-4">
+                A solução completa para gestão de pequenas e médias empresas, com inteligência artificial e integração com WhatsApp.
+              </p>
+              <div className="flex space-x-4">
+                <a href="#" className="text-gray-400 hover:text-white">
+                  <i className="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" className="text-gray-400 hover:text-white">
+                  <i className="fab fa-instagram"></i>
+                </a>
+                <a href="#" className="text-gray-400 hover:text-white">
+                  <i className="fab fa-linkedin-in"></i>
+                </a>
+                <a href="#" className="text-gray-400 hover:text-white">
+                  <i className="fab fa-youtube"></i>
+                </a>
+              </div>
+            </div>
+            
+            <div>
+              <h4 className="text-lg font-semibold text-white mb-4">Empresa</h4>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-400 hover:text-white">Sobre nós</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white">Carreiras</a></li>
+                <li><a href="#blog" className="text-gray-400 hover:text-white">Blog</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white">Imprensa</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white">Parceiros</a></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="text-lg font-semibold text-white mb-4">Recursos</h4>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-400 hover:text-white">Central de Ajuda</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white">Tutoriais</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white">Documentação API</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white">Status do Sistema</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white">Atualizações</a></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="text-lg font-semibold text-white mb-4">Legal</h4>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-400 hover:text-white">Termos de Serviço</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white">Privacidade</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white">Segurança</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white">Cookies</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white">LGPD</a></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="border-t border-gray-800 pt-8 mt-8">
+            <p className="text-gray-500 text-center">
+              &copy; {new Date().getFullYear()} GestorIA. Todos os direitos reservados.
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
