@@ -8,12 +8,7 @@ neonConfig.webSocketConstructor = ws;
 
 // Configura string de conexão com base nas credenciais do Supabase
 function getConnectionString() {
-  // Se já temos uma string de conexão completa, use-a
-  if (process.env.DATABASE_URL) {
-    return process.env.DATABASE_URL;
-  }
-
-  // Se temos credenciais do Supabase, construa a string de conexão
+  // Se temos credenciais do Supabase, priorize-as
   if (process.env.SUPABASE_DB_PASSWORD) {
     const host = 'aws-0-us-east-1.pooler.supabase.com'; 
     const port = '6543';
@@ -23,9 +18,14 @@ function getConnectionString() {
     
     return `postgresql://${user}:${password}@${host}:${port}/${database}`;
   }
+  
+  // Se não temos Supabase, use a string de conexão padrão
+  if (process.env.DATABASE_URL) {
+    return process.env.DATABASE_URL;
+  }
 
   throw new Error(
-    "DATABASE_URL ou credenciais do Supabase não estão configuradas.",
+    "Credenciais do Supabase ou DATABASE_URL não estão configuradas.",
   );
 }
 
