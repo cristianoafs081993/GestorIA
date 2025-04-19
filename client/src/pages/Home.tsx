@@ -127,6 +127,212 @@ const Home = () => {
           </div>
         </div>
       </section>
+      
+      {/* Como Funciona */}
+      <section id="como-funciona" className="bg-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gray-900">Como o GestorIA funciona</h2>
+            <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
+              Conheça a jornada de transformação da sua empresa com nossa plataforma inteligente.
+            </p>
+          </div>
+
+          <div className="relative">
+            {/* Timeline vertical (visível apenas em desktop) */}
+            <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-indigo-100 transform -translate-x-1/2"></div>
+
+            {/* Etapas */}
+            <div className="space-y-24">
+              {/* Etapa 1 */}
+              <div className="flex flex-col md:flex-row items-center">
+                <div className="md:w-1/2 md:pr-16 mb-8 md:mb-0">
+                  <div className="bg-indigo-50 p-6 rounded-lg">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-3">1. Integração Simplificada</h3>
+                    <p className="text-gray-600">
+                      A configuração inicial leva apenas minutos. Nosso sistema guia você pelo processo de importação dos seus dados existentes e configuração de acordo com as necessidades do seu negócio.
+                    </p>
+                  </div>
+                </div>
+                <div className="hidden md:flex items-center justify-center relative z-10">
+                  <div className="w-10 h-10 rounded-full gradient-bg flex items-center justify-center">
+                    <span className="text-white font-medium">1</span>
+                  </div>
+                </div>
+                <div className="md:w-1/2 md:pl-16">
+                  <div className="h-48 bg-gray-100 rounded-lg flex items-center justify-center">
+                    <div className="text-center p-6">
+                      <i className="fas fa-cogs text-4xl text-indigo-400 mb-2"></i>
+                      <p className="text-gray-600">Configuração intuitiva e rápida</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Etapa 2 */}
+              <div className="flex flex-col md:flex-row-reverse items-center">
+                <div className="md:w-1/2 md:pl-16 mb-8 md:mb-0">
+                  <div className="bg-indigo-50 p-6 rounded-lg">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-3">2. Gestão Diária</h3>
+                    <p className="text-gray-600">
+                      Gerencie produtos, vendas, estoques e emita notas fiscais em um único sistema integrado. Todas as funcionalidades foram desenhadas para serem intuitivas e eficientes.
+                    </p>
+                  </div>
+                </div>
+                <div className="hidden md:flex items-center justify-center relative z-10">
+                  <div className="w-10 h-10 rounded-full gradient-bg flex items-center justify-center">
+                    <span className="text-white font-medium">2</span>
+                  </div>
+                </div>
+                <div className="md:w-1/2 md:pr-16">
+                  <div className="h-48 bg-gray-100 rounded-lg flex items-center justify-center">
+                    <div className="text-center p-6">
+                      <i className="fas fa-tasks text-4xl text-indigo-400 mb-2"></i>
+                      <p className="text-gray-600">Interface simplificada para o dia a dia</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Etapa 3 */}
+              <div className="flex flex-col md:flex-row items-center">
+                <div className="md:w-1/2 md:pr-16 mb-8 md:mb-0">
+                  <div className="bg-indigo-50 p-6 rounded-lg">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-3">3. Análise e Insights</h3>
+                    <p className="text-gray-600">
+                      Nossa IA processa seus dados de vendas, clientes e produtos, identificando padrões e gerando recomendações personalizadas para aumentar sua eficiência e lucros.
+                    </p>
+                  </div>
+                </div>
+                <div className="hidden md:flex items-center justify-center relative z-10">
+                  <div className="w-10 h-10 rounded-full gradient-bg flex items-center justify-center">
+                    <span className="text-white font-medium">3</span>
+                  </div>
+                </div>
+                <div className="md:w-1/2 md:pl-16">
+                  <div className="h-48 bg-gray-100 rounded-lg flex items-center justify-center">
+                    <div className="text-center p-6">
+                      <i className="fas fa-chart-pie text-4xl text-indigo-400 mb-2"></i>
+                      <p className="text-gray-600">Dashboard com métricas em tempo real</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Etapa 4 */}
+              <div className="flex flex-col md:flex-row-reverse items-center">
+                <div className="md:w-1/2 md:pl-16 mb-8 md:mb-0">
+                  <div className="bg-indigo-50 p-6 rounded-lg">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-3">4. Automatização e Escala</h3>
+                    <p className="text-gray-600">
+                      Com o crescimento do seu negócio, automatize processos repetitivos, escale suas operações e mantenha a produtividade sem precisar aumentar proporcionalmente sua equipe.
+                    </p>
+                  </div>
+                </div>
+                <div className="hidden md:flex items-center justify-center relative z-10">
+                  <div className="w-10 h-10 rounded-full gradient-bg flex items-center justify-center">
+                    <span className="text-white font-medium">4</span>
+                  </div>
+                </div>
+                <div className="md:w-1/2 md:pr-16">
+                  <div className="h-48 bg-gray-100 rounded-lg flex items-center justify-center">
+                    <div className="text-center p-6">
+                      <i className="fas fa-rocket text-4xl text-indigo-400 mb-2"></i>
+                      <p className="text-gray-600">Automação de processos para crescimento</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* FAQ - Perguntas Frequentes */}
+      <section id="faq" className="bg-gray-50 py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gray-900">Perguntas Frequentes</h2>
+            <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+              Respostas para as dúvidas mais comuns sobre o GestorIA
+            </p>
+          </div>
+
+          <div className="space-y-8">
+            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+              <button className="w-full px-6 py-4 text-left focus:outline-none flex justify-between items-center">
+                <h3 className="text-lg font-semibold text-gray-900">Preciso instalar algum software para usar o GestorIA?</h3>
+                <i className="fas fa-chevron-down text-indigo-600"></i>
+              </button>
+              <div className="px-6 pb-4">
+                <p className="text-gray-600">
+                  Não, o GestorIA é uma plataforma 100% online (SAAS), você pode acessar de qualquer dispositivo com acesso à internet, usando apenas um navegador. Não há necessidade de instalações ou configurações de servidor.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+              <button className="w-full px-6 py-4 text-left focus:outline-none flex justify-between items-center">
+                <h3 className="text-lg font-semibold text-gray-900">Como funciona a integração com WhatsApp?</h3>
+                <i className="fas fa-chevron-down text-indigo-600"></i>
+              </button>
+              <div className="px-6 pb-4">
+                <p className="text-gray-600">
+                  Utilizamos a API oficial do WhatsApp Business para enviar alertas, relatórios e permitir consultas. Você pode configurar quais informações deseja receber e com qual frequência, tornando a gestão ainda mais prática.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+              <button className="w-full px-6 py-4 text-left focus:outline-none flex justify-between items-center">
+                <h3 className="text-lg font-semibold text-gray-900">Posso emitir notas fiscais pelo sistema?</h3>
+                <i className="fas fa-chevron-down text-indigo-600"></i>
+              </button>
+              <div className="px-6 pb-4">
+                <p className="text-gray-600">
+                  Sim, o GestorIA possui integração com os principais sistemas de emissão de notas fiscais eletrônicas do Brasil. Você pode emitir NF-e, NFC-e, e outros documentos fiscais diretamente da plataforma, com conformidade total com a legislação.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+              <button className="w-full px-6 py-4 text-left focus:outline-none flex justify-between items-center">
+                <h3 className="text-lg font-semibold text-gray-900">O sistema funciona para qual tipo de negócio?</h3>
+                <i className="fas fa-chevron-down text-indigo-600"></i>
+              </button>
+              <div className="px-6 pb-4">
+                <p className="text-gray-600">
+                  O GestorIA foi desenvolvido para ser versátil e atender diversos segmentos: comércio varejista, restaurantes, serviços, clínicas, salões de beleza e muitos outros. As funcionalidades podem ser personalizadas de acordo com as necessidades específicas do seu negócio.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+              <button className="w-full px-6 py-4 text-left focus:outline-none flex justify-between items-center">
+                <h3 className="text-lg font-semibold text-gray-900">Qual o suporte oferecido?</h3>
+                <i className="fas fa-chevron-down text-indigo-600"></i>
+              </button>
+              <div className="px-6 pb-4">
+                <p className="text-gray-600">
+                  Oferecemos suporte por chat, email e telefone em horário comercial. Clientes dos planos Profissional e Empresarial contam com um gerente de sucesso dedicado e atendimento prioritário. Além disso, disponibilizamos uma base de conhecimento completa com tutoriais e vídeos.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+              <button className="w-full px-6 py-4 text-left focus:outline-none flex justify-between items-center">
+                <h3 className="text-lg font-semibold text-gray-900">Posso testar o GestorIA antes de assinar?</h3>
+                <i className="fas fa-chevron-down text-indigo-600"></i>
+              </button>
+              <div className="px-6 pb-4">
+                <p className="text-gray-600">
+                  Sim, oferecemos um período de teste gratuito de 14 dias com acesso a todas as funcionalidades do plano Profissional. Não é necessário cartão de crédito para iniciar o teste, basta realizar o cadastro em nossa plataforma.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Planos */}
       <section id="planos" className="bg-white py-16">
