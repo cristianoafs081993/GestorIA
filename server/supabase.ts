@@ -1,14 +1,15 @@
 import { createClient } from '@supabase/supabase-js';
+import { env } from './config/env';
 
 // Verificação das variáveis de ambiente do Supabase
-if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY) {
+if (!env.SUPABASE_URL || !env.SUPABASE_ANON_KEY) {
   console.warn('Supabase URL e/ou chave não definidas. Alguns recursos podem não funcionar corretamente.');
 }
 
 // Criação do cliente Supabase
 export const supabase = createClient(
-  process.env.SUPABASE_URL || '',
-  process.env.SUPABASE_ANON_KEY || ''
+  env.SUPABASE_URL || '',
+  env.SUPABASE_ANON_KEY || ''
 );
 
 // Função para verificar a conexão com o Supabase

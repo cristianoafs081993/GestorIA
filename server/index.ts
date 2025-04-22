@@ -1,6 +1,7 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { env } from "./config/env";
 
 const app = express();
 app.use(express.json());
@@ -50,7 +51,7 @@ app.use((req, res, next) => {
   // importantly only setup vite in development and after
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
-  if (app.get("env") === "development") {
+  if (env.NODE_ENV === "development") {
     await setupVite(app, server);
   } else {
     serveStatic(app);
@@ -60,11 +61,19 @@ app.use((req, res, next) => {
   // this serves both the API and the client.
   // It is the only port that is not firewalled.
   const port = 5000;
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
-    log(`serving on port ${port}`);
-  });
+  
+  // Detect if running on Windows
+  const isWindows = process.platform === 'win32';
+  
+  if (isWindows) {
+    // Windows-specific configuration
+    server.listen(port, 'localhost', () => {
+      log(`serving on http://localhost:${port}`);
+    });
+  } else {
+    // Configuration for other platforms
+    server.listen(port, '0.0.0.0', () => {
+      log(`serving on port ${port}`);
+    });
+  }
 })();

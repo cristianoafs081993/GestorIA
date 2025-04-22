@@ -32,41 +32,36 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Don't show the main header on dashboard pages
-  if (isDashboardPath) return null;
-
   return (
     <header className={`bg-white shadow-md sticky top-0 z-50 transition-all ${isScrolled ? 'py-2' : 'py-4'}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center">
+      <div className="w-full px-4 flex items-center justify-between">
+        <Link href="/">
+          <a className="flex-shrink-0 flex items-center">
+            <h1 className="text-2xl font-bold text-indigo-600">Gestor<span className="text-purple-600">IA</span></h1>
+          </a>
+        </Link>
+        <div className="flex justify-between items-center w-full">
+          <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
             <Link href="/">
-              <a className="flex-shrink-0 flex items-center">
-                <h1 className="text-2xl font-bold text-indigo-600">Gestor<span className="text-purple-600">IA</span></h1>
+              <a className={`border-transparent hover:border-indigo-500 hover:text-indigo-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${location === '/' ? 'border-indigo-500 text-indigo-700' : 'text-gray-500'}`}>
+                Início
               </a>
             </Link>
-            <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-              <Link href="/">
-                <a className={`border-transparent hover:border-indigo-500 hover:text-indigo-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${location === '/' ? 'border-indigo-500 text-indigo-700' : 'text-gray-500'}`}>
-                  Início
-                </a>
-              </Link>
-              <Link href="/#recursos">
-                <a className="border-transparent text-gray-500 hover:border-indigo-500 hover:text-indigo-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                  Recursos
-                </a>
-              </Link>
-              <Link href="/#planos">
-                <a className="border-transparent text-gray-500 hover:border-indigo-500 hover:text-indigo-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                  Planos
-                </a>
-              </Link>
-              <Link href="/blog">
-                <a className={`border-transparent hover:border-indigo-500 hover:text-indigo-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${location.startsWith('/blog') ? 'border-indigo-500 text-indigo-700' : 'text-gray-500'}`}>
-                  Blog
-                </a>
-              </Link>
-            </div>
+            <Link href="/#recursos">
+              <a className="border-transparent text-gray-500 hover:border-indigo-500 hover:text-indigo-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                Recursos
+              </a>
+            </Link>
+            <Link href="/#planos">
+              <a className="border-transparent text-gray-500 hover:border-indigo-500 hover:text-indigo-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                Planos
+              </a>
+            </Link>
+            <Link href="/blog">
+              <a className={`border-transparent hover:border-indigo-500 hover:text-indigo-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${location.startsWith('/blog') ? 'border-indigo-500 text-indigo-700' : 'text-gray-500'}`}>
+                Blog
+              </a>
+            </Link>
           </div>
           
           <div className="hidden sm:ml-6 sm:flex sm:items-center space-x-4">
