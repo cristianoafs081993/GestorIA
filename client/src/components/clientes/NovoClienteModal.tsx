@@ -14,8 +14,6 @@ import { ArrowLeft, Eraser, Save, X } from "lucide-react";
 import { DadosPessoaisForm } from "./forms/DadosPessoaisForm";
 import { ContatoForm } from "./forms/ContatoForm";
 import { EnderecoForm } from "./forms/EnderecoForm";
-import { DadosFinanceirosForm } from "./forms/DadosFinanceirosForm";
-import { InformacoesAdicionaisForm } from "./forms/InformacoesAdicionaisForm";
 
 interface NovoClienteModalProps {
   isOpen: boolean;
@@ -32,13 +30,7 @@ export function NovoClienteModal({ isOpen, onClose }: NovoClienteModalProps) {
     setIsSubmitting(true);
     
     try {
-      // Verificar a conexão com o Supabase
-      const connected = await import('@/lib/supabase').then(module => module.checkSupabaseConnection());
-      
-      if (!connected) {
-        throw new Error("Não foi possível conectar ao Supabase. Verifique suas credenciais.");
-      }
-      
+            
       // Captura todos os dados do formulário
       const form = e.target as HTMLFormElement;
       const formData = new FormData(form);
@@ -77,31 +69,9 @@ export function NovoClienteModal({ isOpen, onClose }: NovoClienteModalProps) {
         cidade: formData.get('cidade') as string || undefined,
         estado: formData.get('estado') as string || undefined,
         
-        // Endereço de Cobrança
-        endereco_cobranca_igual: formData.get('endereco_cobranca_igual') === 'on',
-        cobranca_cep: formData.get('endereco_cobranca_igual') !== 'on' ? formData.get('cobranca_cep') as string : undefined,
-        cobranca_logradouro: formData.get('endereco_cobranca_igual') !== 'on' ? formData.get('cobranca_logradouro') as string : undefined,
-        cobranca_numero: formData.get('endereco_cobranca_igual') !== 'on' ? formData.get('cobranca_numero') as string : undefined,
-        cobranca_complemento: formData.get('endereco_cobranca_igual') !== 'on' ? formData.get('cobranca_complemento') as string : undefined,
-        cobranca_bairro: formData.get('endereco_cobranca_igual') !== 'on' ? formData.get('cobranca_bairro') as string : undefined,
-        cobranca_cidade: formData.get('endereco_cobranca_igual') !== 'on' ? formData.get('cobranca_cidade') as string : undefined,
-        cobranca_estado: formData.get('endereco_cobranca_igual') !== 'on' ? formData.get('cobranca_estado') as string : undefined,
+
         
-        // Dados Financeiros
-        limite_credito: formData.get('limite_credito') ? parseFloat(formData.get('limite_credito') as string) : undefined,
-        prazo_pagamento: formData.get('prazo_pagamento') as string || 'cash',
-        prazo_personalizado: formData.get('prazo_pagamento') === 'custom' ? parseInt(formData.get('prazo_personalizado') as string) : undefined,
-        metodo_pagamento: (formData.get('metodo_pagamento') as string || undefined) as 'cash' | 'credit_card' | 'debit_card' | 'bank_slip' | 'bank_transfer' | 'pix' | undefined,
-        tabela_preco: (formData.get('tabela_preco') as string || 'default') as 'default' | 'wholesale' | 'reseller' | 'vip',
-        regime_tributario: (formData.get('regime_tributario') as string || undefined) as 'simple' | 'real' | 'presumed' | 'not_applicable' | undefined,
         
-        // Informações Adicionais
-        cliente_desde: formData.get('cliente_desde') as string || undefined,
-        tags: formData.get('tags') ? (formData.get('tags') as string).split(',').map(tag => tag.trim()) : undefined,
-        origem_cliente: (formData.get('origem_cliente') as string || undefined) as 'website' | 'social_media' | 'referral' | 'ad' | 'direct' | 'other' | undefined,
-        observacoes: formData.get('observacoes') as string || undefined,
-        consentimento_lgpd: formData.get('consentimento_lgpd') === 'on',
-        marketing_consent: formData.get('marketing_consent') === 'on',
         
         // Status padrão
         status: 'active',
@@ -150,52 +120,36 @@ export function NovoClienteModal({ isOpen, onClose }: NovoClienteModalProps) {
     if (confirm("Tem certeza que deseja limpar todos os campos do formulário?")) {
       // Limpar o formulário
       setActiveTab("dados-pessoais");
+      const form = document.getElementById('clientForm') as HTMLFormElement | null;
+      if (form) form.reset();
     }
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader className="mb-6 flex justify-between items-start">
-          <div>
-            <DialogTitle className="text-2xl font-bold mb-1">Novo Cliente</DialogTitle>
-            <p className="text-gray-600">Preencha o formulário abaixo para cadastrar um novo cliente</p>
-          </div>
-          <Button variant="ghost" onClick={onClose} className="flex items-center text-gray-600 hover:text-gray-900">
-            <ArrowLeft className="mr-2 h-4 w-4" /> Voltar para lista de clientes
-          </Button>
-        </DialogHeader>
+      <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto pt-10 pr-10 [&_[data-state=open]_button[aria-label='Close']]:!top-6 [&_[data-state=open]_button[aria-label='Close']]:!right-6 [&_[data-state=open]_button[aria-label='Close']]:z-50 [&_[data-state=open]_button[aria-label='Close']]:bg-white/90 [&_[data-state=open]_button[aria-label='Close']]:rounded-full [&_[data-state=open]_button[aria-label='Close']]:shadow [&_[data-state=open]_button[aria-label='Close']]:p-1">
+
 
         <form onSubmit={handleSubmit} id="clientForm">
-          <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid grid-cols-5 mb-6">
-              <TabsTrigger value="dados-pessoais">Dados Pessoais</TabsTrigger>
-              <TabsTrigger value="contato">Contato</TabsTrigger>
-              <TabsTrigger value="endereco">Endereço</TabsTrigger>
-              <TabsTrigger value="dados-financeiros">Dados Financeiros</TabsTrigger>
-              <TabsTrigger value="informacoes-adicionais">Informações Adicionais</TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="dados-pessoais">
+          {/* Cadastro em página única, agrupando informações pessoais e de endereço */}
+          <div className="space-y-10">
+            {/* Seção Dados Pessoais */}
+            <div className="bg-white rounded-xl shadow p-8 border border-gray-100">
+              <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                <svg className="w-6 h-6 text-[#7c3aed]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                Dados Pessoais
+              </h2>
               <DadosPessoaisForm />
-            </TabsContent>
-            
-            <TabsContent value="contato">
-              <ContatoForm />
-            </TabsContent>
-            
-            <TabsContent value="endereco">
+            </div>
+            {/* Seção Endereço */}
+            <div className="bg-white rounded-xl shadow p-8 border border-gray-100">
+              <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                <svg className="w-6 h-6 text-[#7c3aed]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 10.5V6a2 2 0 00-2-2h-1.172a2 2 0 01-1.414-.586l-1.828-1.828A2 2 0 0012.172 1H7a2 2 0 00-2 2v16a2 2 0 002 2h10a2 2 0 002-2v-5.5a.5.5 0 00-.5-.5H19a.5.5 0 00-.5.5V19a.5.5 0 01-1 0v-5.5a.5.5 0 00-.5-.5H17a.5.5 0 00-.5.5V19a.5.5 0 01-1 0v-5.5a.5.5 0 00-.5-.5H15a.5.5 0 00-.5.5V19a.5.5 0 01-1 0v-5.5a.5.5 0 00-.5-.5H13a.5.5 0 00-.5.5V19a.5.5 0 01-1 0v-5.5a.5.5 0 00-.5-.5H11a.5.5 0 00-.5.5V19a2 2 0 002 2h10a2 2 0 002-2v-8.5a.5.5 0 00-.5-.5H21a.5.5 0 00-.5.5V19a2 2 0 01-2 2H7a2 2 0 01-2-2V3a2 2 0 012-2h5.172a2 2 0 011.414.586l1.828 1.828A2 2 0 0016.828 5H18a2 2 0 012 2v4.5a.5.5 0 00.5.5H21a.5.5 0 00.5-.5z" /></svg>
+                Endereço
+              </h2>
               <EnderecoForm />
-            </TabsContent>
-            
-            <TabsContent value="dados-financeiros">
-              <DadosFinanceirosForm />
-            </TabsContent>
-            
-            <TabsContent value="informacoes-adicionais">
-              <InformacoesAdicionaisForm />
-            </TabsContent>
-          </Tabs>
+            </div>
+          </div>
 
           {/* Botões de Ação */}
           <div className="mt-8 pt-5 border-t border-gray-200 flex justify-between">

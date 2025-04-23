@@ -1,9 +1,9 @@
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CloudUpload } from "lucide-react";
+// Aba de Informações Adicionais removida para simplificação do cadastro de clientes. Input } from "@/components/ui/input";
+// Aba de Informações Adicionais removida para simplificação do cadastro de clientes. Label } from "@/components/ui/label";
+// Aba de Informações Adicionais removida para simplificação do cadastro de clientes. Textarea } from "@/components/ui/textarea";
+// Aba de Informações Adicionais removida para simplificação do cadastro de clientes. Checkbox } from "@/components/ui/checkbox";
+// Aba de Informações Adicionais removida para simplificação do cadastro de clientes. Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+// Aba de Informações Adicionais removida para simplificação do cadastro de clientes. CloudUpload } from "lucide-react";
 
 export function InformacoesAdicionaisForm() {
   return (

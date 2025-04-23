@@ -6,7 +6,7 @@ import * as schema from "@shared/schema";
 // Configure o Neon para usar WebSocket (necessário para Serverless)
 neonConfig.webSocketConstructor = ws;
 
-// Configura string de conexão com base nas credenciais do Supabase
+// Arquivo desativado para frontend puro.
 function getConnectionString() {
   // Se temos credenciais do Supabase, priorize-as
   if (process.env.SUPABASE_DB_PASSWORD) {

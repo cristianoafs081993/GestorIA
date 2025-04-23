@@ -535,5 +535,5 @@ export class MemStorage implements IStorage {
   }
 }
 
-// Utilizamos o armazenamento do Supabase
+// Arquivo desativado para frontend puro.
 export const storage = supabaseStorage;

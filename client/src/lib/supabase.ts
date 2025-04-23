@@ -1,21 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
-import { Database } from '@/types/supabase';
-
-// Obtendo as variáveis de ambiente do Vite
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-// Verificando se as variáveis de ambiente estão definidas
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('Variáveis de ambiente do Supabase não configuradas! Verifique seu arquivo .env');
-}
-
-// Verificando se as URLs são válidas
-console.log('Supabase URL:', supabaseUrl);
-console.log('Supabase Key:', supabaseAnonKey ? 'Configurada' : 'Não configurada');
-
-// Criação do cliente Supabase
-export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
+// Supabase desativado: integração removida para frontend puro.
 
 // Exporta uma função para verificar a conexão
 export const checkSupabaseConnection = async () => {

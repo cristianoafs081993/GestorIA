@@ -48,8 +48,7 @@ function App() {
             <Route path="/blog" component={Blog} />
             <Route path="/blog/:slug" component={BlogPost} />
             <Route path="/blog-admin" component={BlogAdmin} />
-            <Route path="/diagnostico-supabase" component={DiagnosticoSupabase} />
-            <Route path="/supabase-diagnostic" component={SupabaseDiagnostic} />
+           
             <Route component={NotFound} />
           </Switch>
         </main>

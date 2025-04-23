@@ -1,10 +1,4 @@
-import express, { type Request, Response, NextFunction } from "express";
-import { registerRoutes } from "./routes";
-import { setupVite, serveStatic, log } from "./vite";
-import { env } from "./config/env";
-
-const app = express();
-app.use(express.json());
+// Arquivo desativado para frontend puro.
 app.use(express.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {

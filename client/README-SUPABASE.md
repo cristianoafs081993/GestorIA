@@ -1,12 +1,7 @@
 # Integração com Supabase - BusinessBooster
 
-Este documento descreve como configurar e utilizar a integração com o Supabase para o módulo de clientes do BusinessBooster.
-
-## Configuração
-
-1. Crie uma conta no [Supabase](https://supabase.com/) caso ainda não tenha
-2. Crie um novo projeto no Supabase
-3. Execute o script SQL abaixo no SQL Editor do Supabase para criar a tabela de clientes:
+Este documento descreve# Arquivo desativado
+Este projeto está atualmente sem integração backend/Supabase.
 
 ```sql
 -- Criação da tabela de clientes

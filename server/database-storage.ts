@@ -15,7 +15,7 @@ import {
   type Lead, type InsertLead
 } from '@shared/schema';
 
-export class DatabaseStorage implements IStorage {
+// Arquivo desativado para frontend puro.
   // User methods
   async getUser(id: number): Promise<User | undefined> {
     const result = await db.select().from(users).where(eq(users.id, id)).limit(1);

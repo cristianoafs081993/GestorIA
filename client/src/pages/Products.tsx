@@ -86,7 +86,7 @@ export default function Products() {
       <div className="max-w-7xl mx-auto w-full px-2">
         {/* Alerta de estoque DENTRO do container principal, logo no topo */}
         {showStockAlert && (
-          <div className="bg-yellow-50 border border-yellow-200 text-yellow-900 rounded-md flex items-center px-4 py-3 mb-4 text-sm relative w-full">
+          <div className="bg-white border border-gray-200 shadow-sm rounded-lg flex items-center px-4 py-3 mb-6 text-sm relative w-full">
             <AlertTriangle className="h-5 w-5 mr-3 text-yellow-500" />
             <div>
               <span className="font-semibold">Alerta de estoque</span> <br />
@@ -97,8 +97,9 @@ export default function Products() {
             </button>
           </div>
         )}
+
         {/* Barra de ações em card padronizado */}
-        <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 w-full">
+        <div className="bg-white border border-gray-200 shadow-sm rounded-lg p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 w-full">
           <div className="flex gap-2">
             <Button className="bg-[#6D28D9] hover:bg-[#5B21B6] text-white font-semibold"><Plus className="h-4 w-4 mr-2" /> Novo Produto</Button>
             <Button variant="outline" className="gap-2"><Upload className="h-4 w-4" /> Importar</Button>
@@ -125,7 +126,7 @@ export default function Products() {
         </div>
 
         {/* Tabela de produtos */}
-        <div className="bg-white shadow rounded-xl overflow-x-auto mb-6 w-full">
+        <div className="bg-white border border-gray-200 shadow-sm rounded-lg overflow-x-auto mb-6 w-full">
           <div className="font-bold text-base px-4 pt-4 pb-3">Lista de Produtos</div>
           <table className="min-w-full w-full text-sm table-auto">
             <thead>

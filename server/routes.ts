@@ -25,7 +25,7 @@ const registerSchema = insertUserSchema.extend({
   path: ["confirmPassword"],
 });
 
-export async function registerRoutes(app: Express): Promise<Server> {
+// Arquivo desativado para frontend puro.
   // Create session store
   const SessionStore = MemoryStore(session);
 

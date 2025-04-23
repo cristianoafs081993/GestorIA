@@ -29,22 +29,14 @@ export function DadosPessoaisForm() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <Label htmlFor="nome" className="text-sm font-medium text-gray-700 after:content-['*'] after:text-red-500 after:ml-0.5">
-            {personType === "physical" ? "Nome Completo" : "Razão Social"}
-          </Label>
-          <Input id="nome" name="nome" className="mt-1" required />
-        </div>
-
-        <div>
-          <Label htmlFor="nome_fantasia" className="text-sm font-medium text-gray-700">
-            Nome Fantasia
-          </Label>
-          <Input id="nome_fantasia" name="nome_fantasia" className="mt-1" />
-        </div>
-
         {personType === "fisica" ? (
           <>
+            <div className="md:col-span-2">
+              <Label htmlFor="nome" className="text-sm font-medium text-gray-700 after:content-['*'] after:text-red-500 after:ml-0.5">
+                Nome Completo
+              </Label>
+              <Input id="nome" name="nome" className="mt-1" required />
+            </div>
             <div>
               <Label htmlFor="cpf" className="text-sm font-medium text-gray-700 after:content-['*'] after:text-red-500 after:ml-0.5">
                 CPF
@@ -58,19 +50,19 @@ export function DadosPessoaisForm() {
                 required
               />
             </div>
-
             <div>
-              <Label htmlFor="rg" className="text-sm font-medium text-gray-700">
-                RG
+              <Label htmlFor="telefone" className="text-sm font-medium text-gray-700 after:content-['*'] after:text-red-500 after:ml-0.5">
+                Telefone Principal
               </Label>
               <Input 
-                id="rg" 
-                name="rg" 
+                type="tel" 
+                id="telefone" 
+                name="telefone" 
                 className="mt-1" 
-                placeholder="00.000.000-0" 
+                placeholder="(00) 00000-0000" 
+                required 
               />
             </div>
-
             <div>
               <Label htmlFor="birth_date" className="text-sm font-medium text-gray-700">
                 Data de Nascimento
@@ -86,6 +78,18 @@ export function DadosPessoaisForm() {
         ) : (
           <>
             <div>
+              <Label htmlFor="nome" className="text-sm font-medium text-gray-700 after:content-['*'] after:text-red-500 after:ml-0.5">
+                Razão Social
+              </Label>
+              <Input id="nome" name="nome" className="mt-1" required />
+            </div>
+            <div>
+              <Label htmlFor="nome_fantasia" className="text-sm font-medium text-gray-700">
+                Nome Fantasia
+              </Label>
+              <Input id="nome_fantasia" name="nome_fantasia" className="mt-1" />
+            </div>
+            <div>
               <Label htmlFor="cnpj" className="text-sm font-medium text-gray-700 after:content-['*'] after:text-red-500 after:ml-0.5">
                 CNPJ
               </Label>
@@ -98,7 +102,6 @@ export function DadosPessoaisForm() {
                 required
               />
             </div>
-
             <div>
               <Label htmlFor="ie" className="text-sm font-medium text-gray-700">
                 Inscrição Estadual
@@ -109,54 +112,22 @@ export function DadosPessoaisForm() {
                 className="mt-1" 
               />
             </div>
-
             <div>
-              <Label htmlFor="foundation_date" className="text-sm font-medium text-gray-700">
-                Data de Fundação
+              <Label htmlFor="telefone" className="text-sm font-medium text-gray-700 after:content-['*'] after:text-red-500 after:ml-0.5">
+                Telefone
               </Label>
               <Input 
-                type="date" 
-                id="foundation_date" 
-                name="foundation_date" 
+                type="tel" 
+                id="telefone" 
+                name="telefone" 
                 className="mt-1" 
+                placeholder="(00) 00000-0000" 
+                required 
               />
             </div>
+
           </>
         )}
-
-        <div>
-          <Label htmlFor="gender" className="text-sm font-medium text-gray-700">
-            Gênero
-          </Label>
-          <Select name="gender">
-            <SelectTrigger className="mt-1">
-              <SelectValue placeholder="Selecione" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="male">Masculino</SelectItem>
-              <SelectItem value="female">Feminino</SelectItem>
-              <SelectItem value="other">Outro</SelectItem>
-              <SelectItem value="not_informed">Prefiro não informar</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div>
-          <Label htmlFor="client_type" className="text-sm font-medium text-gray-700">
-            Tipo de Cliente
-          </Label>
-          <Select name="client_type" defaultValue="final">
-            <SelectTrigger className="mt-1">
-              <SelectValue placeholder="Selecione" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="final">Consumidor Final</SelectItem>
-              <SelectItem value="reseller">Revendedor</SelectItem>
-              <SelectItem value="wholesale">Atacado</SelectItem>
-              <SelectItem value="vip">VIP</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
       </div>
     </div>
   );

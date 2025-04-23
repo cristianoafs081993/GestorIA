@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { NovoClienteModal } from "@/components/clientes/NovoClienteModal";
-import clientesService from "@/services/clientesService";
+import clientesService from '@/services/clientesService'; // Usando apenas mock para frontend puro
 import { Cliente } from "@/types/clientes";
 import { useToast } from "@/components/ui/use-toast";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
@@ -61,10 +61,7 @@ const mockClients = [
     phone: "(11) 3456-7890",
     document: "12.345.678/0001-90",
     registrationDate: "10/04/2023",
-    purchases: {
-      count: 32,
-      total: 18450.00
-    },
+    purchases: { count: 32, total: 18450.00 },
     status: "active"
   },
   {
@@ -75,10 +72,7 @@ const mockClients = [
     phone: "(11) 99876-5432",
     document: "123.456.789-00",
     registrationDate: "22/05/2023",
-    purchases: {
-      count: 8,
-      total: 2340.00
-    },
+    purchases: { count: 8, total: 2340.00 },
     status: "active"
   },
   {
@@ -89,10 +83,7 @@ const mockClients = [
     phone: "(11) 2468-1357",
     document: "98.765.432/0001-10",
     registrationDate: "15/01/2023",
-    purchases: {
-      count: 24,
-      total: 12780.00
-    },
+    purchases: { count: 24, total: 12780.00 },
     status: "pending"
   },
   {
@@ -103,10 +94,7 @@ const mockClients = [
     phone: "(11) 97654-3210",
     document: "987.654.321-00",
     registrationDate: "02/06/2023",
-    purchases: {
-      count: 3,
-      total: 750.00
-    },
+    purchases: { count: 3, total: 750.00 },
     status: "inactive"
   },
   {
@@ -117,10 +105,172 @@ const mockClients = [
     phone: "(11) 4321-8765",
     document: "56.789.123/0001-45",
     registrationDate: "08/03/2023",
-    purchases: {
-      count: 17,
-      total: 9650.00
-    },
+    purchases: { count: 17, total: 9650.00 },
+    status: "active"
+  },
+  {
+    id: 6,
+    name: "Maria Oliveira",
+    type: "person",
+    email: "maria.oliveira@email.com",
+    phone: "(21) 91234-5678",
+    document: "234.567.890-11",
+    registrationDate: "18/06/2023",
+    purchases: { count: 12, total: 3200.00 },
+    status: "active"
+  },
+  {
+    id: 7,
+    name: "Padaria Pão Doce",
+    type: "company",
+    email: "contato@paodoce.com",
+    phone: "(21) 3344-5566",
+    document: "23.456.789/0001-22",
+    registrationDate: "09/02/2023",
+    purchases: { count: 5, total: 1800.00 },
+    status: "inactive"
+  },
+  {
+    id: 8,
+    name: "Carlos Mendes",
+    type: "person",
+    email: "carlos.mendes@email.com",
+    phone: "(31) 98877-6655",
+    document: "345.678.901-22",
+    registrationDate: "11/07/2023",
+    purchases: { count: 7, total: 950.00 },
+    status: "pending"
+  },
+  {
+    id: 9,
+    name: "Supermercado Bom Preço",
+    type: "company",
+    email: "suporte@bompreco.com",
+    phone: "(31) 4002-8922",
+    document: "67.890.123/0001-33",
+    registrationDate: "20/03/2023",
+    purchases: { count: 44, total: 22200.00 },
+    status: "active"
+  },
+  {
+    id: 10,
+    name: "Fernanda Lima",
+    type: "person",
+    email: "fernanda.lima@email.com",
+    phone: "(41) 98765-1234",
+    document: "456.789.012-33",
+    registrationDate: "25/08/2023",
+    purchases: { count: 2, total: 320.00 },
+    status: "inactive"
+  },
+  {
+    id: 11,
+    name: "Auto Peças Rápido",
+    type: "company",
+    email: "contato@autorapido.com",
+    phone: "(41) 3232-3232",
+    document: "78.901.234/0001-44",
+    registrationDate: "13/04/2023",
+    purchases: { count: 21, total: 7650.00 },
+    status: "active"
+  },
+  {
+    id: 12,
+    name: "Juliana Prado",
+    type: "person",
+    email: "juliana.prado@email.com",
+    phone: "(51) 99881-1122",
+    document: "567.890.123-44",
+    registrationDate: "30/09/2023",
+    purchases: { count: 4, total: 580.00 },
+    status: "pending"
+  },
+  {
+    id: 13,
+    name: "Restaurante Sabor Caseiro",
+    type: "company",
+    email: "sac@saborcaseiro.com",
+    phone: "(51) 3030-4040",
+    document: "89.012.345/0001-55",
+    registrationDate: "06/05/2023",
+    purchases: { count: 16, total: 4300.00 },
+    status: "active"
+  },
+  {
+    id: 14,
+    name: "Lucas Almeida",
+    type: "person",
+    email: "lucas.almeida@email.com",
+    phone: "(61) 91122-3344",
+    document: "678.901.234-55",
+    registrationDate: "01/10/2023",
+    purchases: { count: 9, total: 1750.00 },
+    status: "active"
+  },
+  {
+    id: 15,
+    name: "Papelaria Criativa",
+    type: "company",
+    email: "contato@criativa.com",
+    phone: "(61) 3322-4455",
+    document: "90.123.456/0001-66",
+    registrationDate: "17/06/2023",
+    purchases: { count: 11, total: 2100.00 },
+    status: "inactive"
+  },
+  {
+    id: 16,
+    name: "Patrícia Gomes",
+    type: "person",
+    email: "patricia.gomes@email.com",
+    phone: "(71) 98822-3344",
+    document: "789.012.345-66",
+    registrationDate: "08/11/2023",
+    purchases: { count: 6, total: 1100.00 },
+    status: "pending"
+  },
+  {
+    id: 17,
+    name: "Farmácia Vida",
+    type: "company",
+    email: "atendimento@farmaciavida.com",
+    phone: "(71) 3030-5050",
+    document: "12.345.678/0001-77",
+    registrationDate: "29/07/2023",
+    purchases: { count: 29, total: 15500.00 },
+    status: "active"
+  },
+  {
+    id: 18,
+    name: "Rafael Torres",
+    type: "person",
+    email: "rafael.torres@email.com",
+    phone: "(81) 98712-3456",
+    document: "890.123.456-77",
+    registrationDate: "14/12/2023",
+    purchases: { count: 5, total: 870.00 },
+    status: "inactive"
+  },
+  {
+    id: 19,
+    name: "Pet Shop Amigo",
+    type: "company",
+    email: "contato@petamigo.com",
+    phone: "(81) 3456-7890",
+    document: "23.456.789/0001-88",
+    registrationDate: "03/09/2023",
+    purchases: { count: 14, total: 4100.00 },
+    status: "pending"
+  },
+  {
+    id: 20,
+    name: "Gabriela Martins",
+    type: "person",
+    email: "gabriela.martins@email.com",
+    phone: "(91) 91234-5678",
+    document: "901.234.567-88",
+    registrationDate: "27/10/2023",
+    purchases: { count: 10, total: 1450.00 },
     status: "active"
   }
 ];
@@ -169,69 +319,38 @@ const Clientes = () => {
   
   // Estados para os dados do banco
   const [clientes, setClientes] = useState<Cliente[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [totalClientes, setTotalClientes] = useState(0);
   const [clientesAtivos, setClientesAtivos] = useState(0);
   const [ticketMedio, setTicketMedio] = useState(0);
   const [novosClientesMes, setNovosClientesMes] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [error, setError] = useState<string | null>(null);
   
   const { toast } = useToast();
 
-  // Função para carregar os clientes do banco de dados
-  const loadClientes = async () => {
-    setIsLoading(true);
-    try {
-      // Tentar carregar os dados diretamente, sem verificar a conexão primeiro
-      try {
-        // Carregar estatísticas
-        const stats = await clientesService.getStats();
-        setTotalClientes(stats.totalClientes);
-        setClientesAtivos(stats.clientesAtivos);
-        setTicketMedio(stats.ticketMedio);
-        setNovosClientesMes(stats.novosClientesMes);
-        
-        // Carregar lista de clientes com paginação e filtros
-        const result = await clientesService.getAll({
-          page: currentPage,
-          limit: 10,
-          status: selectedStatus !== "all" ? selectedStatus : undefined,
-          search: searchQuery || undefined,
-          sortBy: selectedSortBy,
-          sortOrder: "asc",
-          classificacao: selectedClassification !== "all" ? selectedClassification : undefined,
-        });
-        
-        setClientes(result.data);
-        setTotalPages(result.totalPages);
-      } catch (dataError) {
-        console.error("Erro ao carregar dados de clientes:", dataError);
-        
-        // Se falhar ao carregar dados, verificar a conexão para diagnóstico
-        const supabaseModule = await import('@/lib/supabase');
-        await supabaseModule.checkClientesTable();
-        
-        // Se chegou até aqui, o problema não é de conexão, mas pode ser de permissões ou estrutura da tabela
-        throw new Error("Erro ao acessar os dados de clientes. Verifique se a tabela existe e se você tem permissões adequadas.");
-      }
-    } catch (err) {
-      console.error("Erro ao carregar clientes:", err);
-      setError("Erro ao carregar clientes. Verifique a estrutura da tabela no Supabase.");
-      toast({
-        title: "Erro ao carregar clientes",
-        description: err instanceof Error ? err.message : "Ocorreu um erro ao carregar os clientes. Verifique a estrutura da tabela no Supabase.",
-        variant: "destructive",
-      });
-      
-      // Usar dados mockados como fallback quando há erro de conexão
-      setClientes(mockClients.map(client => ({
+  // Função para carregar os clientes do mock
+  const loadClientes = () => {
+    // Estatísticas simples baseadas no mock
+    setTotalClientes(mockClients.length);
+    setClientesAtivos(mockClients.filter(c => c.status === "active").length);
+    setTicketMedio(
+      mockClients.reduce((acc, c) => acc + c.purchases.total, 0) / mockClients.length
+    );
+    setNovosClientesMes(
+      mockClients.filter(c => {
+        const [day, month, year] = c.registrationDate.split("/");
+        const regDate = new Date(`${year}-${month}-${day}`);
+        const now = new Date();
+        return regDate.getMonth() === now.getMonth() && regDate.getFullYear() === now.getFullYear();
+      }).length
+    );
+    setClientes(
+      mockClients.map(client => ({
         id: String(client.id),
         created_at: client.registrationDate,
         updated_at: new Date().toISOString(),
         tipo_pessoa: client.type === "company" ? "juridica" : "fisica",
-        nome: client.name,
+        name: client.name,
         email: client.email,
         telefone: client.phone,
         cpf: client.type === "person" ? client.document : undefined,
@@ -245,26 +364,21 @@ const Clientes = () => {
         marketing_consent: false,
         tipo_cliente: "final",
         tabela_preco: "default"
-      })) as Cliente[]);
-      
-    } finally {
-      setIsLoading(false);
-    }
+      })) as Cliente[]
+    );
+    setTotalPages(1);
   };
   
-  // Carregar clientes quando a página for carregada ou quando os filtros mudarem
+  // Carregar clientes do mock quando a página for carregada ou quando os filtros mudarem
   useEffect(() => {
     loadClientes();
   }, [currentPage, selectedStatus, selectedClassification, selectedSortBy]);
   
-  // Recarregar clientes quando o usuário pesquisar
+  // Recarregar clientes do mock quando o usuário pesquisar
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (searchQuery !== undefined) {
-        loadClientes();
-      }
+      loadClientes();
     }, 500);
-    
     return () => clearTimeout(timer);
   }, [searchQuery]);
   
@@ -377,32 +491,11 @@ const Clientes = () => {
   return (
     <DashboardLayout>
       {/* Page header */}
-      <div className="bg-white rounded-lg shadow p-4 mb-6">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-          <div className="mb-4 md:mb-0">
-            <h1 className="text-2xl font-bold text-gray-800">Clientes</h1>
-            <p className="text-sm text-gray-600">Gerencie todos os seus clientes em um só lugar</p>
-          </div>
-          
-          <div className="flex items-center">
-            {/* Search button */}
-            <div className="relative mr-4 hidden md:block">
-              <Input 
-                type="text" 
-                placeholder="Buscar clientes..." 
-                className="pl-10 pr-4 py-2"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-            </div>
-          </div>
-        </div>
-      </div>
+
       
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <Card>
+        <Card className="bg-white border border-gray-200 shadow-sm rounded-lg">
           <CardContent className="p-4">
             <h3 className="text-sm text-gray-500 font-medium">Total de Clientes</h3>
             <div className="flex items-center justify-between mt-2">
@@ -414,7 +507,7 @@ const Clientes = () => {
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="bg-white border border-gray-200 shadow-sm rounded-lg">
           <CardContent className="p-4">
             <h3 className="text-sm text-gray-500 font-medium">Clientes Ativos</h3>
             <div className="flex items-center justify-between mt-2">
@@ -426,7 +519,7 @@ const Clientes = () => {
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="bg-white border border-gray-200 shadow-sm rounded-lg">
           <CardContent className="p-4">
             <h3 className="text-sm text-gray-500 font-medium">Ticket Médio</h3>
             <div className="flex items-center justify-between mt-2">
@@ -438,7 +531,7 @@ const Clientes = () => {
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="bg-white border border-gray-200 shadow-sm rounded-lg">
           <CardContent className="p-4">
             <h3 className="text-sm text-gray-500 font-medium">Novos este mês</h3>
             <div className="flex items-center justify-between mt-2">
@@ -452,7 +545,7 @@ const Clientes = () => {
       </div>
       
       {/* Actions and Search */}
-      <Card className="mb-6">
+      <Card className="bg-white border border-gray-200 shadow-sm rounded-lg mb-6">
         <CardContent className="p-4">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
             <Button 
@@ -564,7 +657,7 @@ const Clientes = () => {
       </Card>
       
       {/* Client List */}
-      <Card className="mb-6">
+      <Card className="bg-white border border-gray-200 shadow-sm rounded-lg mb-6">
         <CardHeader className="p-4 border-b border-gray-200">
           <CardTitle className="text-lg font-semibold text-gray-800">Lista de Clientes</CardTitle>
         </CardHeader>
@@ -582,33 +675,7 @@ const Clientes = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-                {isLoading ? (
-                  <TableRow>
-                    <TableCell colSpan={7} className="text-center py-8">
-                      <div className="flex justify-center">
-                        <svg className="animate-spin h-8 w-8 text-[#4338ca]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                      </div>
-                      <p className="mt-2 text-gray-500">Carregando clientes...</p>
-                    </TableCell>
-                  </TableRow>
-                ) : error ? (
-                  <TableRow>
-                    <TableCell colSpan={7} className="text-center py-8 text-red-500">
-                      {error}
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        className="mt-2 mx-auto block"
-                        onClick={() => loadClientes()}
-                      >
-                        Tentar novamente
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ) : clientes.length === 0 ? (
+                {clientes.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={7} className="text-center py-8 text-gray-500">
                       Nenhum cliente encontrado.
@@ -678,7 +745,7 @@ const Clientes = () => {
               size="sm" 
               className="text-xs"
               onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1 || isLoading}
+              disabled={currentPage === 1}
             >
               <ChevronLeft className="h-3 w-3 mr-1" />
               Anterior
@@ -703,7 +770,7 @@ const Clientes = () => {
                   size="sm" 
                   className={`text-xs ${currentPage === pageNum ? 'bg-blue-100 text-blue-600' : ''}`}
                   onClick={() => handlePageChange(pageNum)}
-                  disabled={isLoading}
+                  
                 >
                   {pageNum}
                 </Button>
@@ -722,7 +789,7 @@ const Clientes = () => {
                 size="sm" 
                 className={`text-xs ${currentPage === totalPages ? 'bg-blue-100 text-blue-600' : ''}`}
                 onClick={() => handlePageChange(totalPages)}
-                disabled={isLoading}
+                
               >
                 {totalPages}
               </Button>
@@ -742,134 +809,9 @@ const Clientes = () => {
         </div>
       </Card>
       
-      {/* Client Analysis */}
-      <Card className="mb-6">
-        <CardHeader className="p-4 border-b border-gray-200">
-          <CardTitle className="text-lg font-semibold text-gray-800">Análise de Clientes</CardTitle>
-        </CardHeader>
-        <CardContent className="p-4">
-          <div className="flex border-b">
-            <div 
-              className={`cursor-pointer px-4 py-2 ${activeTab === "tab1" ? "text-[#4338ca] border-b-2 border-[#4338ca]" : "text-gray-500 hover:text-gray-700"}`}
-              onClick={() => setActiveTab("tab1")}
-            >
-              Comportamento de Compra
-            </div>
-            <div 
-              className={`cursor-pointer px-4 py-2 ${activeTab === "tab2" ? "text-[#4338ca] border-b-2 border-[#4338ca]" : "text-gray-500 hover:text-gray-700"}`}
-              onClick={() => setActiveTab("tab2")}
-            >
-              Segmentação
-            </div>
-            <div 
-              className={`cursor-pointer px-4 py-2 ${activeTab === "tab3" ? "text-[#4338ca] border-b-2 border-[#4338ca]" : "text-gray-500 hover:text-gray-700"}`}
-              onClick={() => setActiveTab("tab3")}
-            >
-              Fidelização
-            </div>
-          </div>
-          
-          {activeTab === "tab1" && (
-            <div className="py-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h3 className="text-md font-medium text-gray-700 mb-4">Frequência de Compras</h3>
-                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 h-60 rounded-lg flex items-center justify-center">
-                    <div className="text-gray-400 text-center">
-                      <PieChart className="h-12 w-12 mx-auto mb-2" />
-                      <p>Gráfico de Frequência de Compras</p>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-md font-medium text-gray-700 mb-4">Valor Médio por Cliente</h3>
-                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 h-60 rounded-lg flex items-center justify-center">
-                    <div className="text-gray-400 text-center">
-                      <PieChart className="h-12 w-12 mx-auto mb-2" />
-                      <p>Gráfico de Valor Médio por Cliente</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-          
-          {activeTab === "tab2" && (
-            <div className="py-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h3 className="text-md font-medium text-gray-700 mb-4">Clientes por Categoria</h3>
-                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 h-60 rounded-lg flex items-center justify-center">
-                    <div className="text-gray-400 text-center">
-                      <PieChart className="h-12 w-12 mx-auto mb-2" />
-                      <p>Gráfico de Segmentação por Categoria</p>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-md font-medium text-gray-700 mb-4">Distribuição Geográfica</h3>
-                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 h-60 rounded-lg flex items-center justify-center">
-                    <div className="text-gray-400 text-center">
-                      <MapPin className="h-12 w-12 mx-auto mb-2" />
-                      <p>Mapa de Distribuição Geográfica</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-          
-          {activeTab === "tab3" && (
-            <div className="py-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h3 className="text-md font-medium text-gray-700 mb-4">Taxa de Retenção</h3>
-                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 h-60 rounded-lg flex items-center justify-center">
-                    <div className="text-gray-400 text-center">
-                      <PieChart className="h-12 w-12 mx-auto mb-2" />
-                      <p>Gráfico de Taxa de Retenção</p>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-md font-medium text-gray-700 mb-4">Clientes Recorrentes vs. Novos</h3>
-                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 h-60 rounded-lg flex items-center justify-center">
-                    <div className="text-gray-400 text-center">
-                      <PieChart className="h-12 w-12 mx-auto mb-2" />
-                      <p>Comparativo de Clientes Recorrentes vs. Novos</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+
       
-      {/* Recent Activities */}
-      <Card className="mb-6">
-        <CardHeader className="p-4 border-b border-gray-200">
-          <CardTitle className="text-lg font-semibold text-gray-800">Atividades Recentes</CardTitle>
-        </CardHeader>
-        <CardContent className="p-4">
-          <ul className="divide-y divide-gray-200">
-            {mockActivities.map((activity) => (
-              <li key={activity.id} className="py-3">
-                <div className="flex items-start">
-                  {getActivityIcon(activity.type)}
-                  <div className="ml-4 flex-1">
-                    <div className="flex items-center justify-between">
-                      <p className="text-sm font-medium text-gray-900">{activity.title}</p>
-                      <p className="text-sm text-gray-500">{activity.time}</p>
-                    </div>
-                    <p className="text-sm text-gray-500">{activity.description}</p>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </CardContent>
-      </Card>
+
     </DashboardLayout>
   );
 };
